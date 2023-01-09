@@ -1,44 +1,59 @@
 function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, 0)}`;
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
-const divElements = document.querySelector('#controls');
-const inputEl = document.querySelector('[type="number"]');
-const createBtnEl = document.querySelector('[data-create]');
-const destroyBtnEl = document.querySelector('[data-destroy]');
-const boxesElements = document.querySelector('#boxes');
 
-createBtnEl.addEventListener('click', () => {
-  const amountValue = Number(inputEl.value);
-  createBoxes(amountValue);
-});
+const controlsDivEl = document.querySelector('#controls');
+console.log(controlsDivEl);
+const inputEl = document.querySelector('input');
+console.log(inputEl);
+const buttonCreateEl = document.querySelector('[data-create]');
+console.log(buttonCreateEl);
+const buttonDestroyEl = document.querySelector('[data-destroy]');
+console.log(buttonDestroyEl);
+
+const divBoxesEl = document.querySelector('#boxes');
+console.log(divBoxesEl);
+
+function countValueInput(e) {
+  const inputCount = Number(inputEl.value);
+  console.log(inputCount);
+  createBoxes(inputCount);
+}
 
 function createBoxes(amount) {
+  console.log(amount);
+
   const array = [];
   let width = 30;
   let height = 30;
 
-  destroyBoxes();
-
   for (let i = 1; i <= amount; i += 1) {
-    const newDiv = document.createElement('div');
+    console.log(i);
+    const newBoxes = document.createElement('div');
+    console.log(newBoxes);
 
-    newDiv.style.backgroundColor = `${getRandomHexColor()}`;
-    newDiv.style.width = `${width}px`;
-    newDiv.style.height = `${height}px`;
+    newBoxes.style.width = `${width}px`;
+    newBoxes.style.height = `${height}px`;
+    newBoxes.style.backgroundColor = `${getRandomHexColor()}`;
 
-    array.push(newDiv);
+    array.push(newBoxes);
 
     width += 10;
     height += 10;
   }
 
-  boxesElements.append(...array);
+  divBoxesEl.append(...array);
 }
 
-destroyBtnEl.addEventListener('click', destroyBoxes);
-
-function destroyBoxes() {
-  boxesElements.innerHTML = '';
+function destroyBoxes(amount) {
+  console.log(amount);
+  for (let i = 1; i <= amount; i += 1) {
+    divBoxesEl.removeChild(divBoxesEl.lastElementChild);
+  }
 }
+
+buttonCreateEl.addEventListener('click', countValueInput);
+buttonDestroyEl.addEventListener('click', () => {
+  const destroyAmount = Number(inputEl.value);
+  destroyBoxes(destroyAmount);
+});
